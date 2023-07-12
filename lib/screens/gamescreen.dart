@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class GameScreen extends StatelessWidget {
   const GameScreen({super.key});
@@ -154,6 +155,8 @@ class GameScreen extends StatelessWidget {
                         // color: Colors.black,
                         child: state.play
                             ? Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   SizedBox(
                                     height: 10,
@@ -163,10 +166,34 @@ class GameScreen extends StatelessWidget {
                                         BlocProvider.of<GameBloc>(context)
                                             .add(ResetGameEvent());
                                       },
-                                      child: Text('Reset'))
+                                      child: Text('Reset')),
+                                  InkWell(
+                                    child: Text(
+                                        'https://github.com/dhairyajoshi/BFS-Visualizer'),
+                                    onTap: () async {
+                                      await launchUrl(Uri.parse(
+                                          'https://github.com/dhairyajoshi/BFS-Visualizer'));
+                                    },
+                                  ),
                                 ],
                               )
-                            : SizedBox.shrink(),
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  SizedBox.shrink(),
+                                  InkWell(
+                                    child: Text(
+                                        'https://github.com/dhairyajoshi/BFS-Visualizer'),
+                                    onTap: () async {
+                                      await launchUrl(Uri.parse(
+                                          'https://github.com/dhairyajoshi/BFS-Visualizer'));
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  )
+                                ],
+                              ),
                       ),
                     )
                   ],
