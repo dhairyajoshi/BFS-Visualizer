@@ -114,11 +114,21 @@ class GameScreen extends StatelessWidget {
                                 width: 10,
                               ),
                               ElevatedButton(
+                                  onPressed: state.play
+                                      ? null
+                                      : (() =>
+                                          BlocProvider.of<GameBloc>(context)
+                                              .add(RandomizeEvent())),
+                                  child: Text('Randomize')),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              ElevatedButton(
                                   onPressed: (() =>
                                       BlocProvider.of<GameBloc>(context)
                                           .add(TogglePlayEvent())),
                                   child:
-                                      state.play ? Text('Stop') : Text('Play'))
+                                      state.play ? Text('Stop') : Text('Play')),
                             ],
                           )
                         ],

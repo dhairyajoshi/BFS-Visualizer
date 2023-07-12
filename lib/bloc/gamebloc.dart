@@ -41,6 +41,8 @@ class CellClickEvent extends AppEvent {
   CellClickEvent(this.i, this.j);
 }
 
+class RandomizeEvent extends AppEvent {}
+
 class TogglePlayEvent extends AppEvent {}
 
 class GameBloc extends Bloc<AppEvent, AppState> {
@@ -54,10 +56,10 @@ class GameBloc extends Bloc<AppEvent, AppState> {
     [0, -1],
     [1, 0],
     [-1, 0],
-    // [1, 1],
-    // [1, -1],
-    // [-1, 1],
-    // [-1, -1],
+    [1, 1],
+    [1, -1],
+    [-1, 1],
+    [-1, -1],
   ];
   List<int> startLoc = [], endLoc = [];
   bool play = false, start = false, end = false, block = false;
@@ -142,6 +144,25 @@ class GameBloc extends Bloc<AppEvent, AppState> {
           } else if (grid[i][j] == ' ') {
             grid[i][j] = '#';
             clr[i][j] = Color.fromARGB(255, 222, 212, 120);
+          }
+        }
+        emit(GameLoadedState(play, start, end, block, grid, clr, rows, cols));
+      },
+    );
+
+    on<RandomizeEvent>(
+      (event, emit) {
+        emit(GameLoadingState());
+        for (int i = 0; i < rows; i++) {
+          for (int j = 0; j < cols; j++) {
+            if (grid[i][j] == ' ' || grid[i][j] == '#') {
+              grid[i][j] = (['#', ' ', ' ']..shuffle())[0];
+              if (grid[i][j] == '#') {
+                clr[i][j] = Color.fromARGB(255, 222, 212, 120);
+              } else {
+                clr[i][j] = Colors.white;
+              }
+            }
           }
         }
         emit(GameLoadedState(play, start, end, block, grid, clr, rows, cols));
